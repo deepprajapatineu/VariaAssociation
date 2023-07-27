@@ -1,0 +1,54 @@
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+
+
+
+
+<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
+		
+		
+#This is for FrontEnd javascript file
+
+@Injectable()
+export class AuthInterceptor implement HttpInterceptor{
+	constructor(private loginService:LoginService)
+	{}
+	intercept( HttpRequest<any>, HttpHandler): Observable<HttpEvent<any>>{
+	
+		//console.log(testing);
+		let newReq=req;
+		let token= this.loginService.getToken()
+		
+		console.log("INTERCEPTOR ",token);
+		
+		if(token!=null)
+		{
+			newReq=newReq.clone({setHeaders:{Authorization:`Bearer ${token}`}});
+		}
+		
+		return next.handle(newReq);
+	}
+}
+
+
+For get token :- /token
+
+For save new user:- /usersave
+
+For save multiple new user:- /multipleusersave
+
+For get all user :- /getalluser
+
+For get one user by name:- /getmyuser/{name}
+
+For go into Home page after successfully token validation:- /welcome
+
+
